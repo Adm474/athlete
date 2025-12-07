@@ -29,7 +29,4 @@ public class Sport {
 
     @Column(name = "is_team_sport")
     private Boolean isTeamSport;
-
-    @OneToMany(mappedBy = "sport", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Athlete> athletes = new ArrayList<>();
 }

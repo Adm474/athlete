@@ -2,6 +2,7 @@ package com.example.athlete.Controller;
 
 import com.example.athlete.Entity.Athlete;
 import com.example.athlete.Service.AthleteService;
+import com.example.athlete.Controller.Dto.AthleteDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,19 +44,16 @@ public class AthleteController {
     }
 
     @PostMapping
-    public ResponseEntity<Athlete> createAthlete(
-            @Valid @RequestBody Athlete athlete,
-            @RequestParam Long sportId) {
+    public ResponseEntity<Athlete> createAthlete(@Valid @RequestBody AthleteDto athleteDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(athleteService.createAthlete(athlete, sportId));
+                .body(athleteService.createAthlete(athleteDto));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Athlete> updateAthlete(
             @PathVariable Long id,
-            @Valid @RequestBody Athlete athlete,
-            @RequestParam(required = false) Long sportId) {
-        return ResponseEntity.ok(athleteService.updateAthlete(id, athlete, sportId));
+            @Valid @RequestBody AthleteDto athleteDto) {
+        return ResponseEntity.ok(athleteService.updateAthlete(id, athleteDto));
     }
 
     @DeleteMapping("/{id}")

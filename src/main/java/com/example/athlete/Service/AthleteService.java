@@ -3,6 +3,7 @@ package com.example.athlete.Service;
 import com.example.athlete.Entity.Athlete;
 import com.example.athlete.Entity.Sport;
 import com.example.athlete.Repository.AthleteRepository;
+import com.example.athlete.Controller.Dto.AthleteDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,23 +39,31 @@ public class AthleteService {
         return athleteRepository.findByLastNameContainingIgnoreCase(lastName);
     }
 
-    public Athlete createAthlete(Athlete athlete, Long sportId) {
-        Sport sport = sportService.getSportById(sportId);
+    public Athlete createAthlete(AthleteDto athleteDto) {
+        Sport sport = sportService.getSportById(athleteDto.getSportId());
+
+        Athlete athlete = new Athlete();
+        athlete.setFirstName(athleteDto.getFirstName());
+        athlete.setLastName(athleteDto.getLastName());
+        athlete.setBirthDate(athleteDto.getBirthDate());
+        athlete.setNationality(athleteDto.getNationality());
+        athlete.setYearsOfExperience(athleteDto.getYearsOfExperience());
         athlete.setSport(sport);
+
         return athleteRepository.save(athlete);
     }
 
-    public Athlete updateAthlete(Long id, Athlete athleteDetails, Long sportId) {
+    public Athlete updateAthlete(Long id, AthleteDto athleteDto) {
         Athlete athlete = getAthleteById(id);
 
-        athlete.setFirstName(athleteDetails.getFirstName());
-        athlete.setLastName(athleteDetails.getLastName());
-        athlete.setBirthDate(athleteDetails.getBirthDate());
-        athlete.setNationality(athleteDetails.getNationality());
-        athlete.setYearsOfExperience(athleteDetails.getYearsOfExperience());
+        athlete.setFirstName(athleteDto.getFirstName());
+        athlete.setLastName(athleteDto.getLastName());
+        athlete.setBirthDate(athleteDto.getBirthDate());
+        athlete.setNationality(athleteDto.getNationality());
+        athlete.setYearsOfExperience(athleteDto.getYearsOfExperience());
 
-        if (sportId != null) {
-            Sport sport = sportService.getSportById(sportId);
+        if (athleteDto.getSportId() != null) {
+            Sport sport = sportService.getSportById(athleteDto.getSportId());
             athlete.setSport(sport);
         }
 
